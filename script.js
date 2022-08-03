@@ -23,6 +23,7 @@ songItems.forEach((element, i)=>{
     console.log(element, i);
     element.getElementsByClassName("songPic")[0].src = songs[i].coverPath;
     element.getElementsByClassName("songName")[0].innerText = songs[i].songName;
+    //element.getElementsByClassName("timestamp")[0].innerText= audioElement.duration;
 
 })
 
@@ -43,6 +44,7 @@ masterPlay.addEventListener('click', ()=>{
         masterPlay.classList.add('fa-play-circle');
         gif.style.opacity = 0;
     }
+    
 })
 
 //Listen to Events
@@ -55,4 +57,25 @@ audioElement.addEventListener('timeupdate', ()=>{
 
 progressBar.addEventListener('change', ()=>{
     audioElement.currentTime = (progressBar.value * audioElement.duration) / 100;
+})
+
+const makeAllPlay = ()=>{
+    Array.from(document.getElementsByClassName("songItemPlay")).forEach((element)=>{
+        element.classList.remove("fa-pause-circle");
+        element.classList.add("fa-play-circle");
+    })
+}
+
+Array.from(document.getElementsByClassName("songItemPlay")).forEach((element)=>{
+    element.addEventListener('click',(e) =>{
+        makeAllPlay();
+        index = parseInt(e.target.id);
+        e.target.classList.remove("fa-play-circle");
+        e.target.classList.add("fa-pause-circle");
+        audioElement.src = songs[index].filepath;
+        audioElement.currentTime = 0;
+        audioElement.play();
+        masterPlay.classList.remove('fa-play-circle');
+        masterPlay.classList.add('fa-pause-circle');
+    })
 })
