@@ -8,6 +8,9 @@ let progressBar = document.getElementById('progressBar');
 progressBar.value = 0;
 let gif = document.getElementById('gif');
 let songItems = Array.from(document.getElementsByClassName("songItem"));
+let forward = document.getElementById("forward");
+let backward = document.getElementById("backward");
+let masterSong = document.getElementById("masterSong");
 
 let songs =[
     {songName: "Bade achhe lagte hya", filepath: "songs/Bade_Achhe_Lagte_Hain_Shreya_Ghos_(getmp3.pro).mp3", coverPath: "cover/1.png"},
@@ -23,7 +26,7 @@ songItems.forEach((element, i)=>{
     console.log(element, i);
     element.getElementsByClassName("songPic")[0].src = songs[i].coverPath;
     element.getElementsByClassName("songName")[0].innerText = songs[i].songName;
-    //element.getElementsByClassName("timestamp")[0].innerText= audioElement.duration;
+    element.getElementsByClassName("timestamp")[0].innerText= audioElement.duration;
 
 })
 
@@ -44,7 +47,7 @@ masterPlay.addEventListener('click', ()=>{
         masterPlay.classList.add('fa-play-circle');
         gif.style.opacity = 0;
     }
-    
+    masterSong.innerHTML=songs[songIndex].songName;
 })
 
 //Listen to Events
@@ -69,13 +72,37 @@ const makeAllPlay = ()=>{
 Array.from(document.getElementsByClassName("songItemPlay")).forEach((element)=>{
     element.addEventListener('click',(e) =>{
         makeAllPlay();
-        index = parseInt(e.target.id);
+        songIndex = parseInt(e.target.id);
         e.target.classList.remove("fa-play-circle");
         e.target.classList.add("fa-pause-circle");
-        audioElement.src = songs[index].filepath;
+        audioElement.src = songs[songIndex].filepath;
         audioElement.currentTime = 0;
         audioElement.play();
         masterPlay.classList.remove('fa-play-circle');
         masterPlay.classList.add('fa-pause-circle');
     })
+})
+
+forward.addEventListener('click', ()=>{
+    if(songIndex==songs.length-1)
+    {
+        songIndex=-1;
+    }
+    audioElement.src = songs[++songIndex].filepath;
+    audioElement.currentTime = 0;
+    audioElement.play();
+    masterSong.innerHTML=songs[songIndex].songName;
+    gif.style.opacity = 1;
+})
+
+backward.addEventListener('click', ()=>{
+    if(songIndex==0)
+    {
+        songIndex=songs.length;
+    }
+    audioElement.src = songs[--songIndex].filepath;
+    audioElement.currentTime = 0;
+    audioElement.play();
+    masterSong.innerHTML=songs[songIndex].songName;
+    gif.style.opacity = 1;
 })
