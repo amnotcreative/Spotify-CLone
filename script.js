@@ -93,6 +93,8 @@ forward.addEventListener('click', ()=>{
     audioElement.play();
     masterSong.innerHTML=songs[songIndex].songName;
     gif.style.opacity = 1;
+    masterPlay.classList.remove('fa-play-circle');
+    masterPlay.classList.add('fa-pause-circle');
 })
 
 backward.addEventListener('click', ()=>{
@@ -105,4 +107,6 @@ backward.addEventListener('click', ()=>{
     audioElement.play();
     masterSong.innerHTML=songs[songIndex].songName;
     gif.style.opacity = 1;
+    masterPlay.classList.remove('fa-play-circle');
+    masterPlay.classList.add('fa-pause-circle');
 })
